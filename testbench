@@ -1,0 +1,53 @@
+`timescale 1ns / 1ps
+
+module tb_alu;
+
+// Testbench signals
+reg  [7:0] A_tb;           // Testbench 8-bit input operand A
+reg  [7:0] B_tb;           // Testbench 8-bit input operand B
+reg  [2:0] ALU_Sel_tb;     // Testbench 3-bit control signal
+wire [7:0] ALU_Out_tb;     // Testbench 8-bit output result
+
+// Instantiate the ALU
+alu uut (
+    .A(A_tb),
+    .B(B_tb),
+    .ALU_Sel(ALU_Sel_tb),
+    .ALU_Out(ALU_Out_tb)
+);
+
+initial begin
+    // Initialize inputs
+    A_tb = 8'b00001100; // 12 in decimal
+    B_tb = 8'b00000101; // 5 in decimal
+
+    // Test Addition
+    ALU_Sel_tb = 3'b000; // Select addition operation
+    #10;                 // Wait for 10 time units
+    $display("Addition Result: %d", ALU_Out_tb); // Expected: 17
+
+    // Test Subtraction
+    ALU_Sel_tb = 3'b001; // Select subtraction operation
+    #10;                 // Wait for 10 time units
+    $display("Subtraction Result: %d", ALU_Out_tb); // Expected: 7
+
+    // Test Bitwise AND
+    ALU_Sel_tb = 3'b010; // Select bitwise AND operation
+    #10;                 // Wait for 10 time units
+    $display("Bitwise AND Result: %b", ALU_Out_tb); // Expected: 00000100
+
+    // Test Bitwise OR
+    ALU_Sel_tb = 3'b011; // Select bitwise OR operation
+    #10;                 // Wait for 10 time units
+    $display("Bitwise OR Result: %b", ALU_Out_tb); // Expected: 00001101
+
+    // Test Bitwise NOT (on A)
+    ALU_Sel_tb = 3'b100; // Select bitwise NOT operation
+    #10;                 // Wait for 10 time units
+    $display("Bitwise NOT Result: %b", ALU_Out_tb); // Expected: 11110011
+
+    // End of simulation
+    $finish;
+end
+
+endmodule
