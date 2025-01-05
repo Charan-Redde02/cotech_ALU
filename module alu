@@ -1,0 +1,22 @@
+// 8-bit Arithmetic Logic Unit (ALU)
+// Supports addition, subtraction, bitwise AND, OR, and NOT operations
+
+module alu (
+    input  [7:0] A,         // 8-bit input operand A
+    input  [7:0] B,         // 8-bit input operand B
+    input  [2:0] ALU_Sel,   // 3-bit control signal to select the operation
+    output reg [7:0] ALU_Out // 8-bit output result
+);
+
+always @(*) begin
+    case (ALU_Sel)
+        3'b000: ALU_Out = A + B;        // Addition
+        3'b001: ALU_Out = A - B;        // Subtraction
+        3'b010: ALU_Out = A & B;        // Bitwise AND
+        3'b011: ALU_Out = A | B;        // Bitwise OR
+        3'b100: ALU_Out = ~A;           // Bitwise NOT (on A)
+        default: ALU_Out = 8'b00000000; // Default to 0 for undefined operations
+    endcase
+end
+
+endmodule
